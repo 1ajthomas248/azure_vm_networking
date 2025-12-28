@@ -5,8 +5,6 @@ This lab focused on designing and validating a tiered network architecture in Mi
 
 All virtual machines were managed as headless servers using SSH, reflecting standard cloud and system administration practices.
 
----
-
 ### Objectives
 - Design a virtual network with multiple subnets
 - Deploy virtual machines into separate network tiers
@@ -14,8 +12,6 @@ All virtual machines were managed as headless servers using SSH, reflecting stan
 - Validate allowed and denied traffic paths
 - Implement a jump-host access pattern
 - Troubleshoot and confirm network behavior
-
----
 
 ### Architecture
 - One Azure Virtual Network (`vnet-prod-lab`)
@@ -31,8 +27,6 @@ All virtual machines were managed as headless servers using SSH, reflecting stan
 - SSH used for administrative access
 - Nginx used to validate HTTP connectivity
 
----
-
 ### Technologies Used
 - Microsoft Azure
 - Azure Virtual Network
@@ -42,15 +36,13 @@ All virtual machines were managed as headless servers using SSH, reflecting stan
 - SSH
 - Nginx
 
----
-
-## Step 1 — Create a Resource Group
+### Step 1: Create a Resource Group
 
 - Resource group name: rg-vm-networking-lab
 
 <img width="512" height="288" alt="image" src="https://github.com/user-attachments/assets/465bcaff-031f-4c62-b7f7-a24a27f85641" />
 
-## Step 2 — Create the Virtual Network
+### Step 2: Create the Virtual Network
 
 - Go to Virtual networks → Create
 
@@ -66,7 +58,7 @@ All virtual machines were managed as headless servers using SSH, reflecting stan
 
 <img width="512" height="288" alt="image" src="https://github.com/user-attachments/assets/e755f963-fb8d-47f5-aeb9-f414fa5bd99b" />
 
-## Step 3 — Create Network Security Groups
+### Step 3: Create Network Security Groups
 
 Create two NSGs:
 
@@ -97,13 +89,13 @@ NSG 2: App NSG
 <img width="512" height="288" alt="image" src="https://github.com/user-attachments/assets/871c0a10-75e2-4427-9fac-308ac516c2e8" />
 <img width="512" height="288" alt="image" src="https://github.com/user-attachments/assets/88e815db-fcea-4f85-8a12-086c632f4bfc" />
 
-## Step 4 — Associate NSGs with Subnets
+### Step 4: Associate NSGs with Subnets
 
 - Associate nsg-web → subnet-web
 
 - Associate nsg-app → subnet-app
 
-## Step 5 — Deploy Web VM (Public)
+### Step 5: Deploy Web VM (Public)
 
 - VM name: vm-web-01
 
@@ -119,7 +111,7 @@ NSG 2: App NSG
 
  <img width="512" height="288" alt="image" src="https://github.com/user-attachments/assets/9e42fb8f-2b8c-43cf-bc4a-569e822417ed" />
 
-## Step 6 — Deploy App VM (Private)
+### Step 6: Deploy App VM (Private)
 
 - VM name: vm-app-01
 
@@ -131,7 +123,7 @@ NSG 2: App NSG
 
 - OS: Ubuntu Server
 
-## Step 7 — Install Services
+### Step 7: Install Services
 
 - On both VMs run these commands to install nginx
 
@@ -140,7 +132,7 @@ sudo apt update
 sudo apt install -y nginx
 ```
 
-## Step 8 — Test Traffic Flow
+### Step 8: Test Traffic Flow
 
 Test 1: Internet → Web VM
 
@@ -171,18 +163,14 @@ Test 3: Web VM → App VM
 
 <img width="512" height="288" alt="image" src="https://github.com/user-attachments/assets/f673b35b-dcae-4bfa-82e1-8b6b26d0f855" />
 
-## Step 9 — Cleanup
+### Step 9: Cleanup
 
-- Delete resource group rg-vm-networking-lab
+- Delete resource group rg-vm-networking-lab to make sure no extra costs are incurred
 
----
-
-## Results
+### Results
 - Public traffic successfully reached the web tier.
 - The application tier remained private and inaccessible from the internet.
 - Internal communication between tiers functioned only when explicitly allowed by NSG rules.
 
----
-
-## Conclusion and Takeaways
+### Conclusion and Takeaways
 This lab demonstrated how Azure networking components work together to enforce secure, tiered access within a virtual network. By separating workloads into dedicated subnets and applying Network Security Groups at the subnet level, traffic flow was tightly controlled and validated through deliberate testing. The use of a jump-host access pattern ensured that private resources were not exposed to the public internet while remaining accessible to trusted internal systems. I leanred alot and there were some hiccups in the setting up and assignment of NSG. During the testing of the web VM, the nginx page wasn't loading like expected. I was about to trace back to a misassignment of the web VM to the app NSG which didn't allow incoming traffic from the internet. From there I was able to rectify this and get the rest of the lab to work as expected. Overall, this lab provided practical experience designing, securing, and validating Azure network architectures aligned with real-world cloud environments.
