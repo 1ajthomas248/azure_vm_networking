@@ -140,7 +140,7 @@ sudo apt update
 sudo apt install -y nginx
 ```
 
-## Step 8 — Test Traffic Flow (This Is the Core of the Lab)
+## Step 8 — Test Traffic Flow
 
 Test 1: Internet → Web VM
 
